@@ -7,7 +7,8 @@ const useStyles = makeStyles({
         marginTop: "26px"
     },
     searchItem: {
-        marginTop: "10px"
+        marginTop: "10px",
+        marginBottom: "30px"
     }
 });
 

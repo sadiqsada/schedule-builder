@@ -7,7 +7,8 @@ import { makeStyles } from '@material-ui/core/styles';
 const useStyles = makeStyles({
 	classGrid: {
 		width: "70%",
-		marginLeft: "10%"
+		marginLeft: "10%",
+		minHeight: "100vh"
 	}
 });
 
