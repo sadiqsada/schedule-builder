@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Grid, MenuItem, Select, TextField, Button } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
+import firebase from './Firebase/firebase';
 
 const useStyles = makeStyles({
     notSearchItem: {
@@ -14,10 +15,23 @@ const useStyles = makeStyles({
 
 function SearchBar() {
     const [searchTag, setSearchTag] = useState("All Fields");
+    const [searchField, setSearchField] = useState("");
+
     const classes = useStyles();
 
     const handleTagChange = (event) => {
         setSearchTag(event.target.value);
+    }
+
+    const handleSearchChange = (event) => {
+        setSearchField(event.target.value);
+    }
+
+    const handleSubmit = () => {
+        const database = firebase.database();
+        database.ref("Classes").child("course 1").once('value').then(snap => {
+            console.log(snap.val());
+        });
     }
 
     return (
@@ -29,7 +43,7 @@ function SearchBar() {
             justify="center"
         >
             <Grid item xs={6} className={classes.searchItem}>
-                <TextField id="standard-basic" label="Search" fullWidth />
+                <TextField onChange={handleSearchChange} value={searchField} id="standard-basic" label="Search" fullWidth />
             </Grid>
             <Grid item xs={4} className={classes.notSearchItem}>
                 <Select
@@ -45,7 +59,7 @@ function SearchBar() {
                 </Select>
             </Grid>
             <Grid item xs={2} className={classes.notSearchItem}>
-                <Button color="primary" variant="contained">Find</Button>
+                <Button onClick={handleSubmit} color="primary" variant="contained">Find</Button>
             </Grid>
         </Grid>
     );
