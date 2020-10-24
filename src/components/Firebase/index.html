@@ -1,56 +1,57 @@
-<!DOCTYPE html>
-
 <html>
-    <head>
-        <meta charset="utf-8">
-        <meta http-equiv="X-UA-Compatible" content="IE=edge">
-        <title></title>
-        <meta name="description" content="">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link rel="stylesheet" href="">
-    </head>
-    <body>
-        <script src="https://www.gstatic.com/firebasejs/7.24.0/firebase-app.js"></script>
-        <script src="https://www.gstatic.com/firebasejs/7.24.0/firebase-database.js"></script>
-        <script src="classData.js"></script>
-        <script>
-            const firebaseConfig = {
-                apiKey: "AIzaSyCwl0ovb07UN7JfJLzC-iANDgZQhcVCPAc",
-                authDomain: "cse316-hw4-cadac.firebaseapp.com",
-                databaseURL: "https://cse316-hw4-cadac.firebaseio.com",
-                projectId: "cse316-hw4-cadac",
-                storageBucket: "cse316-hw4-cadac.appspot.com",
-                messagingSenderId: "598968152261",
-                appId: "1:598968152261:web:2dd483802ee8ff7f6a80ac",
-                measurementId: "G-WFTB9GMXC5"
-            };
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <title></title>
+    <meta name="description" content="">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="">
+</head>
+<body>
+    <script src="https://www.gstatic.com/firebasejs/7.24.0/firebase-app.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/7.24.0/firebase-database.js"></script>
+    <script src="classData.js"></script>
+    <script>
+        const firebaseConfig = {
+            apiKey: "AIzaSyCwl0ovb07UN7JfJLzC-iANDgZQhcVCPAc",
+            authDomain: "cse316-hw4-cadac.firebaseapp.com",
+            databaseURL: "https://cse316-hw4-cadac.firebaseio.com",
+            projectId: "cse316-hw4-cadac",
+            storageBucket: "cse316-hw4-cadac.appspot.com",
+            messagingSenderId: "598968152261",
+            appId: "1:598968152261:web:2dd483802ee8ff7f6a80ac",
+            measurementId: "G-WFTB9GMXC5"
+        };
 
-            firebase.initializeApp(firebaseConfig);
+        firebase.initializeApp(firebaseConfig);
 
-            const database = firebase.database();
-            for(i = 0; i < allCourses.length; i++) {
-                let keyString = "course " + (i + 1);
+        const database = firebase.database();
+        for(i = 0; i < allCourses.length; i++) {
+            let keyString = "course " + (i + 1);
 
-                database.ref().child("Classes").child(keyString).set({
-                    department: allCourses[i][0],
-                    classCode: allCourses[i][1],
-                    type: allCourses[i][2],
-                    number: allCourses[i][3],
-                    days: allCourses[i][4],
-                    startTime: allCourses[i][5],
-                    endTime: allCourses[i][6],
-                    sessionStart: allCourses[i][7],
-                    sessionEnd: allCourses[i][8],
-                    capacity: allCourses[i][9],
-                    instructionMode: allCourses[i][10],
-                    building: allCourses[i][11],
-                    room: allCourses[i][12],
-                    instructor: allCourses[i][13],
-                    enrollmentCap: allCourses[i][14],
-                    waitlistCap: allCourses[i][15]
-                });
-            }
+            database.ref().child("Classes").child(keyString).set({
+                department: allCourses[i][0],
+                classCode: allCourses[i][1],
+                type: allCourses[i][2],
+                number: allCourses[i][3],
+                days: allCourses[i][4],
+                startTime: allCourses[i][5],
+                endTime: allCourses[i][6],
+                sessionStart: allCourses[i][7],
+                sessionEnd: allCourses[i][8],
+                capacity: allCourses[i][9],
+                instructionMode: allCourses[i][10],
+                building: allCourses[i][11],
+                room: allCourses[i][12],
+                instructor: allCourses[i][13],
+                enrollmentCap: allCourses[i][14],
+                waitlistCap: allCourses[i][15],
+                classTitle: allCourses[i][18]
+            });
+        }
 
-        </script>
-    </body>
+    </script>
+
+</body>
+
 </html>

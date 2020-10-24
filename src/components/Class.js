@@ -1,25 +1,34 @@
 import React from 'react';
-import { Grid, Button } from '@material-ui/core';
+import { Typography, Grid, Button } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 
 const useStyles = makeStyles({
     root: {
         background: "#192A56",
-        height: "100px"
+        height: "16vh"
     },
 
     classInfo: {
-        color: "white"
+        color: "white",
     },
 
     addButton: {
         marginTop: "15px",
-        marginLeft: "25px"
+        marginLeft: "1em"
     }
 });
 
-function Class() {
+function Class(props) {
     const classes = useStyles();
+
+    // const handleAdd = (department, code, number) => {
+    //     console.log(department);
+    // }
+
+    // const handleAdd = e => {
+    //     console.log(e);
+    // }
+
     return (
         <Grid
             container
@@ -30,21 +39,21 @@ function Class() {
             className={classes.root}
         >
             <Grid item xs={1}>
-                <div className={classes.classInfo}> 1 </div>
+                <div className={classes.classInfo}> {props.count} </div>
             </Grid>
             <Grid item xs={3}>
-                <div className={classes.classInfo}>CSE 114, L02</div>
+                <div className={classes.classInfo}>{props.department} {props.classCode}, {props.classNumber}</div>
             </Grid>
             <Grid item xs={6}>
-                <div className={classes.classInfo}>
-                    <span>Intro to Object-Oriented Programming</span>
+                <Typography className={classes.classInfo}>
+                    <span>{props.classTitle}</span>
                     <br />
-                    by <span>Tripathi, Praveen</span>     <span>Credit:</span> <span>4.0</span>
+                    <span>Instructor: </span><span>{props.instructor}</span>
                     <br />
-                    <span>Lab:</span> <span>MW 2:40pm - 4:00 pm</span>    <span>Lec:</span> <span>TUTH 8:00am-9:20am</span>
+                    <span>Time:</span> <span>{props.startTime} - {props.endTime}</span> 
                     <br />
-                    <span>Attr:</span> <span>TECH</span>
-                </div>
+                    <span>Days:</span> <span>{props.days}</span>
+                </Typography>
             </Grid>
             <Grid item xs={2}>
                 <Button className={classes.addButton} color="primary" variant="contained">Add</Button>
