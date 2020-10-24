@@ -1,6 +1,9 @@
 import React from 'react';
 import { Typography, Grid, Button } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
+import firebase from './Firebase/firebase';
+
+const db = firebase.database();
 
 const useStyles = makeStyles({
     root: {
@@ -21,13 +24,18 @@ const useStyles = makeStyles({
 function Class(props) {
     const classes = useStyles();
 
-    // const handleAdd = (department, code, number) => {
-    //     console.log(department);
-    // }
-
-    // const handleAdd = e => {
-    //     console.log(e);
-    // }
+    const handleAdd = () => {
+        db.ref("Classes").once("value").then(snap => {
+            snap.forEach(childSnap => {
+                let currentChild = childSnap.val();
+                if(currentChild.department === props.department && currentChild.classCode === props.classCode
+                  && currentChild.number === props.classNumber) {
+                    let newRef = db.ref("Schedule").push();
+                    newRef.set(currentChild);
+                }
+            });
+        });
+    }
 
     return (
         <Grid
@@ -56,7 +64,7 @@ function Class(props) {
                 </Typography>
             </Grid>
             <Grid item xs={2}>
-                <Button className={classes.addButton} color="primary" variant="contained">Add</Button>
+                <Button className={classes.addButton} color="primary" variant="contained" onClick={handleAdd}>Add</Button>
             </Grid>
         </Grid>
     );
