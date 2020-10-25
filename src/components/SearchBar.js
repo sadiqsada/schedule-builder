@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
 import { Container, Grid, MenuItem, Select, TextField, Button } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
+import Navbar from './Navbar';
 import firebase from './Firebase/firebase';
 import ClassGrid from './ClassGrid';
 
@@ -148,36 +149,39 @@ function SearchBar() {
     }
 
     return (
-        <Container>
-            <Grid
-                container
-                spacing={4}
-                display="flex"
-                direction="row"
-                justify="center"
-            >
-                <Grid item xs={6} className={classes.searchItem}>
-                    <TextField onChange={handleSearchChange} value={searchField} id="standard-basic" label="Search" fullWidth />
+        <div>
+            <Navbar />
+            <Container>
+                <Grid
+                    container
+                    spacing={4}
+                    display="flex"
+                    direction="row"
+                    justify="center"
+                >
+                    <Grid item xs={6} className={classes.searchItem}>
+                        <TextField onChange={handleSearchChange} value={searchField} id="standard-basic" label="Search" fullWidth />
+                    </Grid>
+                    <Grid item xs={4} className={classes.notSearchItem}>
+                        <Select
+                            value={searchTag}
+                            onChange={handleTagChange}
+                            fullWidth
+                        >
+                            <MenuItem value="All Fields">All Fields</MenuItem>
+                            <MenuItem value="Subject">Subject</MenuItem>
+                            <MenuItem value="Course Title">Course Title</MenuItem>
+                            <MenuItem value="Instructor">Instructor</MenuItem>
+                            <MenuItem value="Course">Course</MenuItem>
+                        </Select>
+                    </Grid>
+                    <Grid item xs={2} className={classes.notSearchItem}>
+                        <Button onClick={handleSubmit} color="primary" variant="contained">Find</Button>
+                    </Grid>
                 </Grid>
-                <Grid item xs={4} className={classes.notSearchItem}>
-                    <Select
-                        value={searchTag}
-                        onChange={handleTagChange}
-                        fullWidth
-                    >
-                        <MenuItem value="All Fields">All Fields</MenuItem>
-                        <MenuItem value="Subject">Subject</MenuItem>
-                        <MenuItem value="Course Title">Course Title</MenuItem>
-                        <MenuItem value="Instructor">Instructor</MenuItem>
-                        <MenuItem value="Course">Course</MenuItem>
-                    </Select>
-                </Grid>
-                <Grid item xs={2} className={classes.notSearchItem}>
-                    <Button onClick={handleSubmit} color="primary" variant="contained">Find</Button>
-                </Grid>
-            </Grid>
-            <ClassGrid data={searchResults}/>
-        </Container>
+                <ClassGrid data={searchResults}/>
+            </Container>
+        </div>
     );
 }
 
