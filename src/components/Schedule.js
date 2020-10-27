@@ -25,7 +25,8 @@ const useStyles = makeStyles({
         direction: "column"
     },
     rowItem: {
-        backgroundColor: "#AE1438",
+        // backgroundColor: "#AE1438",
+        backgroundColor: "#757de8",
         textAlign: "center",
         fontWeight: 500,
         border: "1px solid black"

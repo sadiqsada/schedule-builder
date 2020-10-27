@@ -34,8 +34,6 @@ function SearchBar() {
         const database = firebase.database();
         let tempSearchResults = [];
         let count = 0;
-        setSearchField(searchField.toLowerCase());
-        setSearchField(searchField.replace(/\s+/g, ''));
 
         if(searchTag === "Instructor") {
             for(let i = 1; i <= 100; i++) {
@@ -46,7 +44,7 @@ function SearchBar() {
                     let val = snap.val().instructor;
                     val = val.toLowerCase();
                     val = val.replace(/\s+/g, '');
-                    if(val.includes(searchField)) {
+                    if(val.includes(searchField.toLowerCase().replace(/\s+/g, ''))) {
                         tempSearchResults.push(snap.val());
                     }
                     if(count === 100) {
@@ -66,7 +64,7 @@ function SearchBar() {
                     let val = snap.val().department;
                     val = val.toLowerCase();
                     val = val.replace(/\s+/g, '');
-                    if(val.includes(searchField)) {
+                    if(val.includes(searchField.toLowerCase().replace(/\s+/g, ''))) {
                         tempSearchResults.push(snap.val());
                     }
                     if(count === 100) {
@@ -86,7 +84,7 @@ function SearchBar() {
                     let val = snap.val().classTitle;
                     val = val.toLowerCase();
                     val = val.replace(/\s+/g, '');
-                    if(val.includes(searchField)) {
+                    if(val.includes(searchField.toLowerCase().replace(/\s+/g, ''))) {
                         tempSearchResults.push(snap.val());
                     }
                     if(count === 100) {
@@ -108,7 +106,7 @@ function SearchBar() {
                     let val = val1 + val2;
                     val = val.toLowerCase();
                     val = val.replace(/\s+/g, '');
-                    if(val.includes(searchField)) {
+                    if(val.includes(searchField.toLowerCase().replace(/\s+/g, ''))) {
                         tempSearchResults.push(snap.val());
                     }
                     if(count === 100) {
@@ -135,7 +133,7 @@ function SearchBar() {
                     let val = val1 + val2 + val3 + val4 + val5 + val6 + val7;
                     val = val.toLowerCase();
                     val = val.replace(/\s+/g, '');
-                    if(val.includes(searchField)) {
+                    if(val.includes(searchField.toLowerCase().replace(/\s+/g, ''))) {
                         tempSearchResults.push(snap.val());
                     }
                     if(count === 100) {
