@@ -40,12 +40,12 @@ function Navbar() {
             container
             className={classes.root}
         >
-            <Grid item xs={6} fullWidth className={classes.gridItem}>
+            <Grid item xs={6} className={classes.gridItem}>
                 <Link className={classes.linkTag} to="/">
                     <Typography align="center" className={classes.typography}>Search Classes</Typography>
                 </Link>
             </Grid>
-            <Grid item xs={6} fullWidth className={classes.gridItem}>
+            <Grid item xs={6} className={classes.gridItem}>
                 <Link className={classes.linkTag} to="/schedule">
                   <Typography align="center" className={classes.typography}>View Schedule</Typography>
                 </Link>
