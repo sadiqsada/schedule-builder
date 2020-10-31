@@ -2,6 +2,7 @@ import React from 'react';
 import { Typography, Grid, Button } from '@material-ui/core';
 import { makeStyles } from '@material-ui/core/styles';
 import firebase from './Firebase/firebase';
+import { useHistory } from 'react-router-dom';
 
 const db = firebase.database();
 
@@ -23,7 +24,8 @@ const useStyles = makeStyles({
 
 function Class(props) {
     const classes = useStyles();
-
+    const history = useHistory();
+    
     const handleAdd = () => {
         db.ref("Classes").once("value").then(snap => {
             snap.forEach(childSnap => {
@@ -35,6 +37,8 @@ function Class(props) {
                 }
             });
         });
+
+        history.push("/schedule");
     }
 
     return (

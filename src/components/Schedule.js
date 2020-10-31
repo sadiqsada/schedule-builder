@@ -44,48 +44,68 @@ const useStyles = makeStyles({
     },
 });
 
-function sortClassesHelper(amList) {
-    // sort the classes separately
-    let amIntList = [];
-    amList.forEach(classItem => {
-        let classArr = classItem.startTime.split(" ");
-        let startTime = classArr[0].split(":"); // ["10", "20"], getting rid of the colon in between
-        startTime = startTime[0] + startTime[1]; // "1020"
-        startTime = parseInt(startTime) // 1020
-        amIntList.push(startTime);
-    });
+function sortClassesHelper(timeList, state) {
+    timeList.sort((item1, item2) => item1 - item2);
+    let copyState = [];
+    let boolean = [];
+    timeList.forEach(time => {
+        let currentTime = time;
+        state.forEach((classItem, index) => {
+            let classArr = classItem.startTime.split(" ");
 
-    // sort list
-    for(let i = 0; i < amIntList.length - 1; i++) {
-        for(let j = 1; j < amIntList.length; j++) {
-            if(amIntList[i] > amIntList[j]) {
-                [amIntList[j], amIntList[i]] = [amIntList[i], amIntList[j]]; // swapping
-                [amList[j], amList[i]] = [amList[i], amList[j]]; // swapping initial list
+            let time = classArr[0];
+            let startTime = time.split(":");
+            let hours = startTime[0];
+            hours = parseInt(hours);
+            let minutes = startTime[1];
+            minutes = parseInt(minutes);
+    
+            let section = classArr[1]; // am/pm
+            let intTime = convertToIntTime(hours, minutes, section);
+
+            if(currentTime === intTime && boolean[index] === undefined) {
+                copyState.push(classItem);
+                boolean[index] = -1;
             }
-        }
-    }
-
-    return amList;
-}
-
-function sortClasses(state) {
-    // first, separate the state into am classes and pm classes
-    let amList = [];
-    let pmList = [];
-    state.forEach(classItem => {
-        let classArr = classItem.startTime.split(" ");
-        let section = classArr[1]; // taking the am/pm part
-        if(section === "AM") amList.push(classItem);
-        if(section === "PM") pmList.push(classItem);
+        });
     });
-
-    amList = sortClassesHelper(amList); 
-    pmList = sortClassesHelper(pmList);
-
-    state = amList.concat(pmList);
+    state = copyState;
     return state;
 }
 
+function sortClasses(state) {
+    let timeList = [];
+
+    state.forEach((classItem) => {
+        let classArr = classItem.startTime.split(" ");
+
+        let time = classArr[0];
+        let startTime = time.split(":");
+        let hours = startTime[0];
+        hours = parseInt(hours);
+        let minutes = startTime[1];
+        minutes = parseInt(minutes);
+
+        let section = classArr[1]; // am/pm
+        let intTime = convertToIntTime(hours, minutes, section);
+
+        timeList.push(intTime);
+    });
+
+    state = sortClassesHelper(timeList, state);
+    return state;
+}
+
+function convertToIntTime(hours, minutes, section) {
+    minutes = minutes + hours * 60;
+    if(section === "AM" && hours === 12) {
+        minutes -= (12 * 60);
+    }
+    if(section === "PM" && hours < 12) {
+        minutes += (12 * 60);
+    }
+    return minutes;
+}
 
 function Schedule() {
     const classes = useStyles();
@@ -114,7 +134,7 @@ function Schedule() {
                 if(days.includes("W")) tempWedState.push(currentClass);
                 if(days.includes("TH")) tempThuState.push(currentClass);
                 if(days.includes("F")) tempFriState.push(currentClass);
-            });
+            }); 
 
             tempMonState = sortClasses(tempMonState);
             tempTueState = sortClasses(tempTueState);
@@ -129,6 +149,8 @@ function Schedule() {
                 thuState: tempThuState,
                 friState: tempFriState
             });
+
+
         });
         return () => ref.off('value', listener);
     }, [firebase.database()]);
