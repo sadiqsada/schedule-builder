@@ -26,12 +26,38 @@ function Class(props) {
     const classes = useStyles();
     const history = useHistory();
     
-    const handleAdd = () => {
-        db.ref("Classes").once("value").then(snap => {
+    // add class when add button is clicked
+
+    const checkDuplicate = async() => {
+        let duplicate = false;
+        await db.ref("Schedule").once("value").then(snap => {
             snap.forEach(childSnap => {
                 let currentChild = childSnap.val();
                 if(currentChild.department === props.department && currentChild.classCode === props.classCode
                   && currentChild.number === props.classNumber) {
+                    duplicate = true;
+                    return;
+                }
+            });
+        });
+
+        return duplicate;
+    }
+
+    const handleAdd = async() => {
+        // Check duplicates
+        let isDuplicate = await checkDuplicate();
+        
+        if(isDuplicate) {
+            alert("Cannot add duplicate element.");
+            return;
+        }
+
+        db.ref("Classes").once("value").then(snap => {
+            snap.forEach(childSnap => {
+                let currentChild = childSnap.val();
+                if(currentChild.department === props.department && currentChild.classCode === props.classCode
+                    && currentChild.number === props.classNumber) {
                     let newRef = db.ref("Schedule").push();
                     newRef.set(currentChild);
                 }
@@ -39,6 +65,7 @@ function Class(props) {
         });
 
         history.push("/schedule");
+        
     }
 
     return (
