@@ -117,6 +117,48 @@ function SearchBar() {
                 });
             }
         }
+        else if(searchTag === "Day") {
+            for(let i = 1; i <= 100; i++) {
+                let keyString = "course " + i;
+                let ref = database.ref("Classes").child(keyString);
+                ref.once('value').then(snap => {
+                    count++;
+                    let val = snap.val().days;
+                    val = val.toLowerCase();
+                    val = val.replace(/\s+/g, '');
+                    if(val.includes(searchField.toLowerCase().replace(/\s+/g, ''))) {
+                        tempSearchResults.push(snap.val());
+                    }
+                    if(count === 100) {
+                        setSearchResults(tempSearchResults);
+                        count = 0;
+                        tempSearchResults = [];
+                    }
+                });
+            }
+        }
+        else if(searchTag === "Time") {
+            for(let i = 1; i <= 100; i++) {
+                let keyString = "course " + i;
+                let ref = database.ref("Classes").child(keyString);
+                ref.once('value').then(snap => {
+                    count++;
+                    let val1 = snap.val().startTime;
+                    let val2 = snap.val().endTime;
+                    let val = val1 + val2;
+                    val = val.toLowerCase();
+                    val = val.replace(/\s+/g, '');
+                    if(val.includes(searchField.toLowerCase().replace(/\s+/g, ''))) {
+                        tempSearchResults.push(snap.val());
+                    }
+                    if(count === 100) {
+                        setSearchResults(tempSearchResults);
+                        count = 0;
+                        tempSearchResults = [];
+                    }
+                });
+            }
+        }
         else if(searchTag === "All Fields") {
             for(let i = 1; i <= 100; i++) {
                 let keyString = "course " + i;
@@ -171,6 +213,8 @@ function SearchBar() {
                             <MenuItem value="Course Title">Course Title</MenuItem>
                             <MenuItem value="Instructor">Instructor</MenuItem>
                             <MenuItem value="Course">Course</MenuItem>
+                            <MenuItem value="Day">Day</MenuItem>
+                            <MenuItem value="Time">Time</MenuItem>
                         </Select>
                     </Grid>
                     <Grid item xs={2} className={classes.notSearchItem}>
